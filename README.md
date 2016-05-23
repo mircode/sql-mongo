@@ -1,6 +1,5 @@
 # Mongo SQL
 
-标签（空格分隔）： mongo sql mongorc.js
 
 在Mongo Shell上运行SQL查询
 
