@@ -28,7 +28,7 @@ db.SQL("select * from log where user='淘宝' order by tcount desc limit 0,10");
 ![条件查询][6]
 ### 五、复合条件查询
 ```
-db.SQL("select * from log where user='淘宝' or (user='京东' and service like 'query.*')  limit 0,10");
+db.SQL("select * from log where user='淘宝' or (user='京东' and service like 'query.*') limit 0,10");
 ```
 ![复合条件查询][7]
 ### 六、分组查询
