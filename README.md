@@ -6,7 +6,7 @@
 ![mongosql][1]
 
 ### 一、安装手册
-安装好Mongo然后将.mongorc.js放到系统的家目录。
+安装好Mongo然后将.mongorc.js放到系统的家目录。可以导入log.json作为测试数据，进行测试。
 #### 1、window
 ![window][2]
 #### 2、linux
