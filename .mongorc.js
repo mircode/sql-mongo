@@ -483,7 +483,7 @@
 		}
 		function parseObj(str){
 			var res={};
-			str.replace(/(['|"]*\w+['|"]*)(=|!=|>|<|>=|<=|like)(['|"]*\S+['|"]*)/ig,function(match,v1,opt,v2){
+			str.replace(/(['|"]*\w+['|"]*)(>=|<=|!=|=|>|<|like)(['|"]*\S+['|"]*)/ig,function(match,v1,opt,v2){
 				v2=parseVal(v2);
 				if(opt!='='){
 					res[v1]={};
@@ -625,6 +625,7 @@
 		        verbose:true
 		    });
 		   
+		    
 		    var size=db.tmp.find({}).count();
 		    var iterator=db.tmp.find({}).forEach(function(doc){
 		        var res={};
@@ -634,8 +635,7 @@
 		        for(var i in doc['value']){
 		            res[i]=doc['value'][i];
 		        }
-		        res['res']=1;
-		        db.tmp.insert(res);
+				db.tmp.update(doc,res);
 		    });
 		    
 		    var project=Query.project;
@@ -644,7 +644,7 @@
 		    }
 		    //printjson(project);
 		    flag=false;
-		    result=db.tmp.find({res:1},project).sort(Query.sort).skip(Query.skip).limit(Query.limit);
+		    result=db.tmp.find({},project).sort(Query.sort).skip(Query.skip).limit(Query.limit);
 		}
 		
 		return result;
