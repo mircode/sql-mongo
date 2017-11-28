@@ -619,37 +619,42 @@
 		        },
 		        finalize:function(key,val) {
 		            val.mavg=val.msum/val.mcount;
+					for(var k in key){
+						val[k]=key[k];
+					}
 		            return val;
 		        },
-		        out: {merge:'tmp'},
+		        out: {replace:'tmp'},
 		        verbose:true
 		    });
-		   
-		    
-		    var size=db.tmp.find({}).count();
-		    var iterator=db.tmp.find({}).forEach(function(doc){
-		        var res={};
-		        for(var i in doc['_id']){
-		            res[i]=doc['_id'][i];
-		        }
-		        for(var i in doc['value']){
-		            res[i]=doc['value'][i];
-		        }
-				db.tmp.update(doc,res);
-		    });
-		    
+		      
+		    //var size=db.tmp.find({}).count();
 		    var project=Query.project;
 		    for(var i in Query.metric){
 		    	project['m'+i]=1;
 		    }
-		    //printjson(project);
+		   
 		    flag=false;
-		    result=db.tmp.find({},project).sort(Query.sort).skip(Query.skip).limit(Query.limit);
+			
+			var args=[{$replaceRoot:{newRoot:'$value'}}];
+			project && args.push({$project:project});
+			isNotEmpty(Query.sort) && args.push({$sort:Query.sort});
+			isNotEmpty(Query.limit) && args.push({$limit:Query.limit});
+			
+			//printjson(args);
+			result=db.tmp.aggregate(args);
 		}
 		
 		return result;
 	}
-
+	/**
+	* 判断一个对象是否为空
+	**/
+	function isNotEmpty(obj){
+		for(key in obj)  
+			return true;
+		return false;  
+	}  
 	/**
 	 * 用于日志输出
 	 * just for print log
